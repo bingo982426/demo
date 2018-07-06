@@ -1,8 +1,9 @@
 package com.aop.demo.service;
 
 
-import com.aop.demo.model.Game;
 import java.util.List;
+
+import com.aop.demo.model.Game;
 
 public interface GameService {
 
@@ -10,4 +11,5 @@ public interface GameService {
 
   List<Game> all();
 
+  int addGame();
 }

@@ -1,7 +1,8 @@
 package com.aop.demo.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {
@@ -9,8 +10,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
   @Override
   protected Object determineCurrentLookupKey() {
-    log.debug("数据源为:====", DataSourceContextHolder.getDB());
-
+    log.info("数据源为:[{}]", DataSourceContextHolder.getDB());
     return DataSourceContextHolder.getDB();
   }
 
