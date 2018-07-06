@@ -6,9 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@EnableTransactionManagement(order = 2)
-@SpringBootApplication(exclude = {
-    DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @MapperScan(basePackages = {"com.aop.demo.mapper"})
 public class DemoApplication {
 

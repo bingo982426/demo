@@ -1,25 +1,25 @@
 package com.aop.demo.config;
 
 import java.lang.reflect.Method;
-
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect
-@Order(1)
+@Order(-1)
 @Component
 public class DynamicDataSourceAspect {
 
   private static final String GET_METHOD = "get";
 
-  @Around("execution(* com.aop.demo.service.impl..*(..))")
-  public Object switchDS(ProceedingJoinPoint point) throws Throwable {
-    Signature className = point.getSignature();
+  @Before("execution(* com.aop.demo.service.impl..*(..))")
+  public void switchDS(JoinPoint joinPoint) {
+    Signature className = joinPoint.getSignature();
     MethodSignature ms = (MethodSignature) className;
     Method m = ms.getMethod();
 
@@ -28,11 +28,10 @@ public class DynamicDataSourceAspect {
     } else {
       DataSourceContextHolder.setDB("primaryDataSource");
     }
+  }
 
-    try {
-      return point.proceed();
-    } finally {
-      DataSourceContextHolder.clearDB();
-    }
+  @After("execution(* com.aop.demo.service.impl..*(..))")
+  public void after(JoinPoint joinPoint) {
+    DataSourceContextHolder.clearDB();
   }
 }
