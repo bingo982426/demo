@@ -4,13 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -18,23 +17,22 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 
 @Configuration
-public class DataSourceConfig extends BaseDruidConfig {
+public class DataSourceConfig {
 
   @Bean(name = "primaryDataSource")
   @Qualifier("primaryDataSource")
-  @ConfigurationProperties("spring.datasource.druid.one")
+  @ConfigurationProperties("spring.datasource.hikari.one")
   public DataSource primaryDataSource() {
-    return DruidDataSourceBuilder.create().build();
+    return DataSourceBuilder.create().build();
   }
 
   @Bean(name = "secondDataSource")
   @Qualifier("secondDataSource")
-  @ConfigurationProperties("spring.datasource.druid.two")
+  @ConfigurationProperties("spring.datasource.hikari.two")
   public DataSource secondDataSource() {
-    return DruidDataSourceBuilder.create().build();
+    return DataSourceBuilder.create().build();
   }
 
   @Primary
@@ -82,7 +80,8 @@ public class DataSourceConfig extends BaseDruidConfig {
     AnnotationAwareAspectJAutoProxyCreator transactionAutoProxy = new AnnotationAwareAspectJAutoProxyCreator();
     transactionAutoProxy.setProxyTargetClass(true);
     transactionAutoProxy
-        .setIncludePatterns(Collections.singletonList("execution(public com.aop.demo.service.impl..*(..))"));
+        .setIncludePatterns(
+            Collections.singletonList("execution(public com.aop.demo.service.impl..*(..))"));
     transactionAutoProxy.setInterceptorNames("txAdvice");
     transactionAutoProxy.setOrder(99);
     return transactionAutoProxy;

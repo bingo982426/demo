@@ -2,38 +2,22 @@ spring:
   application:
     name: game-service
   datasource:
-    druid:
-      maxActive: 80
-      initialSize: 2
-      maxWait: 10000
-      useUnfairLock: true
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 86400
-      validationQuery: select 'x'
-      testWhileIdle: true
-      testOnBorrow: true
-      testOnReturn: true
-      poolPreparedStatements: false
-      removeAbandoned: false
-      removeAbandonedTimeout: 180
-      logAbandoned: true
-      keepAlive: true
-      filters: stat,slf4j,config
-      filter:
-        stat:
-          slow-sql-millis: 5000
-        wall:
-          config:
-            show-allow: true
+    hikari:
       one:
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          password: root
-          username: root
-          url: jdbc:mysql://127.0.0.1:3306/game?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+         driver-class-name: com.mysql.cj.jdbc.Driver
+         jdbc-url: jdbc:mysql://127.0.0.1:3306/game?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+         username: root
+         password: root
+         maximum-pool-size: 30
       two:
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          password: root
-          username: root
-          url: jdbc:mysql://127.0.0.1:3306/cif?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+         driver-class-name: com.mysql.cj.jdbc.Driver
+         jdbc-url: jdbc:mysql://127.0.0.1:3306/cif?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+         username: root
+         password: root
+         maximum-pool-size: 30
+
+
+
+
 server:
   port: 9000
