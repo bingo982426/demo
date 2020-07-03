@@ -1,33 +1,42 @@
 package com.aop.demo.controllr;
 
+import com.aop.demo.competition.model.Competition;
+import com.aop.demo.game.model.Game;
+import com.aop.demo.service.TestService;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aop.demo.model.Game;
-import com.aop.demo.service.GameService;
-
 @RestController
 public class GameController {
 
   @Autowired
-  GameService gameService;
+  TestService testService;
 
-  @GetMapping(value = "/all")
+  @GetMapping(value = "games")
   public List<Game> getAll() {
-    return gameService.getAll();
+    return testService.games();
   }
 
-  @GetMapping(value = "/all2")
-  public List<Game> getAll2() {
-    return gameService.all();
+  @GetMapping(value = "matchs")
+  public List<Competition> getAll2() {
+    return testService.matchs();
   }
 
   @PostMapping(value = "game")
-  public int addGame() {
-    return gameService.addGame();
+  public void addGame() {
+    testService.addGame();
+  }
+
+  @PostMapping(value = "match")
+  public void addMatch() {
+    testService.addMatch();
+  }
+
+  @PostMapping(value = "join")
+  public void join() {
+    testService.join();
   }
 }

@@ -1,8 +1,7 @@
 package com.aop.demo.config;
 
-import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 @Slf4j
 public class DynamicDataSource extends AbstractRoutingDataSource {

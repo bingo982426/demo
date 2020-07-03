@@ -2,22 +2,25 @@ spring:
   application:
     name: game-service
   datasource:
-    hikari:
-      one:
-         driver-class-name: com.mysql.cj.jdbc.Driver
-         jdbc-url: jdbc:mysql://127.0.0.1:3306/game?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
-         username: root
-         password: root
-         maximum-pool-size: 30
-      two:
-         driver-class-name: com.mysql.cj.jdbc.Driver
-         jdbc-url: jdbc:mysql://127.0.0.1:3306/cif?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
-         username: root
-         password: root
-         maximum-pool-size: 30
-
+    druid:
+      game:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/game?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+        username: root
+        password: toor
+        maximum-pool-size: 30
+      competition:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/match?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&failOverReadOnly=false&rewriteBatchedStatements=true&allowMultiQueries=true
+        username: root
+        password: toor
+        maximum-pool-size: 30
+  main:
+    allow-bean-definition-overriding: true
 
 
 
 server:
   port: 9000
+mapper:
+  mappers: {"com.aop.demo.common","com.aop.demo.game.mapper","com.aop.demo.competition.mapper"}

@@ -1,12 +1,8 @@
 package com.aop.demo.config;
 
-import java.lang.reflect.Method;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -15,23 +11,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class DynamicDataSourceAspect {
 
-  private static final String GET_METHOD = "get";
 
-  @Before("execution(* com.aop.demo.service.impl..*(..))")
-  public void switchDS(JoinPoint joinPoint) {
-    Signature className = joinPoint.getSignature();
-    MethodSignature ms = (MethodSignature) className;
-    Method m = ms.getMethod();
-
-    if (m.getName().startsWith(GET_METHOD)) {
-      DataSourceContextHolder.setDB("secondDataSource");
-    } else {
-      DataSourceContextHolder.setDB("primaryDataSource");
-    }
+  @Around("execution(* com.aop.demo.game.service.impl..*(..))")
+  public Object primaryDataSource(ProceedingJoinPoint joinPoint) throws Throwable {
+    DataSourceContextHolder.setDB("primaryDataSource");
+    Object o = joinPoint.proceed();
+    DataSourceContextHolder.clearDB();
+    return o;
   }
 
-  @After("execution(* com.aop.demo.service.impl..*(..))")
-  public void after(JoinPoint joinPoint) {
+  @Around("execution(* com.aop.demo.competition.service.impl..*(..))")
+  public Object secondDataSource(ProceedingJoinPoint joinPoint) throws Throwable {
+    DataSourceContextHolder.setDB("secondDataSource");
+    Object o = joinPoint.proceed();
     DataSourceContextHolder.clearDB();
+    return o;
   }
 }

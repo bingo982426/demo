@@ -18,5 +18,6 @@ class DataSourceContextHolder {
 
   static void clearDB() {
     contextHolder.remove();
+    log.info("清除数据源");
   }
 }
